@@ -9,17 +9,62 @@ public class CircularMotion : MonoBehaviour
     [SerializeField] private float angularSpeed;
     [SerializeField] private float motionRadius;
 
-    [SerializeField] private Vector3 centerPoint;
-    
-    
+    [SerializeField] private Transform[] centerPoints;
+
+    private bool canGoToNextCircle;
+    private bool isTranslatingToNextCircle;
+
+    private int currentCircle;
+    private Vector3 centerPoint => centerPoints[currentCircle].position;
+    private Vector3 startPoint => centerPoint + Vector3.back * motionRadius + Vector3.up;
+
+    private Vector3 stopPoint;
+
     private void Start()
     {
-        transform.position = centerPoint + Vector3.back * motionRadius;
+        transform.position =startPoint;
     }
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
-            transform.RotateAround(centerPoint,Vector3.up, Time.deltaTime*angularSpeed);
+        if (Input.GetMouseButton(0)&&!isTranslatingToNextCircle)
+            transform.RotateAround(centerPoint, Vector3.up, Time.deltaTime * angularSpeed);
+        else if (canGoToNextCircle && !isTranslatingToNextCircle)
+        {
+            //fix: get radius of circle base
+            Vector3 distance = -centerPoint;
+            currentCircle++;
+            distance += centerPoint;
+            Camera.main.GetComponent<CameraTranslator>().TranslateToNextCircle(distance);
+            
+            StartCoroutine(TranslateToNextCircleBaseRoutine(startPoint));
+        }
+    }
+
+    IEnumerator TranslateToNextCircleBaseRoutine(Vector3 desiredPosition)
+    {
+        isTranslatingToNextCircle = true;
+
+        transform.position = stopPoint;
+        transform.rotation = Quaternion.identity;
+        while ((transform.position - desiredPosition).magnitude > 0.01f)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, Time.deltaTime * 5);
+            yield return null;
+        }
+
+        isTranslatingToNextCircle = false;
+        canGoToNextCircle = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        canGoToNextCircle = true;
+        stopPoint = other.transform.position+Vector3.up;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        canGoToNextCircle = false;
     }
 }
