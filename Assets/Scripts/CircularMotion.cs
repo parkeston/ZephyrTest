@@ -41,6 +41,7 @@ public class CircularMotion : MonoBehaviour
         }
     }
 
+    //todo: move logic of translation to another circle outside of the scope of this script?
     IEnumerator TranslateToNextCircleBaseRoutine(Vector3 desiredPosition)
     {
         isTranslatingToNextCircle = true;
@@ -66,5 +67,11 @@ public class CircularMotion : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         canGoToNextCircle = false;
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        print("collision!");
+        Destroy(gameObject);
     }
 }
