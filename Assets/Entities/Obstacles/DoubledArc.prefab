@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3651788384560443582}
-  - component: {fileID: 3651788384560443577}
   - component: {fileID: 3906002277204785007}
+  - component: {fileID: 4397214375209566445}
   m_Layer: 0
   m_Name: DoubledArc
   m_TagString: Untagged
@@ -33,19 +33,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3651788384560443577
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3651788384560443576}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c006125f86e7d42a0abe1355a2c1fdc4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 30
 --- !u!54 &3906002277204785007
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -62,6 +49,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &4397214375209566445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3651788384560443576}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdc58231086614a698cbaa6d46d93e01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 40
+  movementStrategy: {fileID: 11400000, guid: b9baa722b49b14938b249e6c20eacbaf, type: 2}
+  minPercentOffsetFromCenter: 0.8
+  maxPercentOffsetFromCenter: 0.8
+  weight: 5
 --- !u!64 &1145722562421486899
 MeshCollider:
   m_ObjectHideFlags: 0
